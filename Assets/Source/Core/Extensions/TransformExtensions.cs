@@ -47,5 +47,17 @@ namespace GK.Core
             float distance = tf.position.DistanceTo(tt.position);
             return distance;
         }
+
+        /// <summary>
+        /// Destroys all children of the transform.
+        /// </summary>
+        /// <param name="t">The transform to destroy children.</param>
+        public static void DestroyChildren(this Transform t)
+        {
+            foreach (Transform child in t)
+            {
+                Object.Destroy(child);
+            }
+        }
     }
 }

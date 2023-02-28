@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GK.Core;
 using GK.Input;
+using MoreMountains.Feedbacks;
 
 namespace GK.Player
 {
@@ -17,8 +18,11 @@ namespace GK.Player
         [SerializeField] private ScaledFloat _dashCooldown;
         [SerializeField] private bool _instantCooldownStart;
 
+        //[Header("Feedback")]
+
         [Header("References")]
         [SerializeField] private PlayerMovement _playerMovement;
+        [SerializeField] private MMF_Player _feedback;
 
         private float _dashCooldownTimer;
         private bool _isDashing;
@@ -74,6 +78,8 @@ namespace GK.Player
             _isDashing = true;
             _playerMovement.Blocked = true;
             _playerMovement.Rigidbody.velocity = direction * _dashSpeed;
+
+            _feedback.PlayFeedbacks();
 
             yield return new WaitForSeconds(_dashDuration);
 

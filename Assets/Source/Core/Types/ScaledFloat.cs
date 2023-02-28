@@ -12,11 +12,13 @@ namespace GK.Core
     /// 
     /// This is used for scaling values, such as damage, health, movement speed, etc.
     /// </summary>
+    [System.Serializable]
     public class ScaledFloat
     {
+        [SerializeField]
         private float _baseValue;
-        private float _additiveMultiplier;
-        private float _multiplicativeMultiplier;
+        private float _additiveMultiplier = 1f;
+        private float _multiplicativeMultiplier = 1f;
 
         /// <summary>
         /// The real value of the float, accounting for scaling.
@@ -29,6 +31,11 @@ namespace GK.Core
         public ScaledFloat(float baseValue)
         {
             _baseValue = baseValue;
+            Initialize();
+        }
+
+        public void Initialize()
+        {
             _additiveMultiplier = 1f;
             _multiplicativeMultiplier = 1f;
         }

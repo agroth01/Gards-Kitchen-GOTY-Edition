@@ -18,10 +18,16 @@ namespace GK.Player
         [SerializeField] private ScaledFloat _damage;
         [SerializeField] private float _projectileSpeed;
 
-        [Header("Feel")]
+        [Header("Audio")]
+        [SerializeField] private AudioClip _shootSound;
+        [SerializeField] private float _shootSoundVolume = 1f;
+
+        [Header("Game Feel")]
         [SerializeField] private MMF_Player _feedback;
+        
 
         private float _nextShotTimer;
+        private AudioSource _audioSource;
 
         /// <summary>
         /// Can the player fire?
@@ -43,6 +49,8 @@ namespace GK.Player
         {
             _fireRate.Initialize();
             _damage.Initialize();
+
+            _audioSource = GetComponent<AudioSource>();
         }
 
         private void Update()
@@ -68,6 +76,15 @@ namespace GK.Player
             CreateProjectile(direction, _projectileSpeed, _damage.Value);
 
             _feedback.PlayFeedbacks();
+
+            PlayAudio();
+        }
+
+        private void PlayAudio()
+        {
+            _audioSource.clip = _shootSound;
+            _audioSource.volume = _shootSoundVolume;
+            _audioSource.Play();
         }
     }
 }

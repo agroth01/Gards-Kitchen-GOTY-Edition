@@ -76,15 +76,15 @@ namespace GK.Player
         private IEnumerator DashCoroutine(Vector3 direction)
         {
             _isDashing = true;
-            _playerMovement.Blocked = true;
-            _playerMovement.Rigidbody.velocity = direction * _dashSpeed;
+            _playerMovement.InputBlocked = true;
+            _playerMovement.Velocity = direction * _dashSpeed;
 
             _feedback.PlayFeedbacks();
 
             yield return new WaitForSeconds(_dashDuration);
 
             _isDashing = false;
-            _playerMovement.Blocked = false;
+            _playerMovement.InputBlocked = false;
             _dashCooldownTimer = _dashCooldown.Value;
         }
     }

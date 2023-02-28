@@ -34,6 +34,11 @@ namespace GK.Player
             _speed.Initialize();
         }
 
+        private void Update()
+        {
+            Rotation();
+        }
+
         public void OnInput(InputData data)
         {
             _movementDirection = data.MovementDirection;
@@ -46,6 +51,16 @@ namespace GK.Player
 
             Vector3 v = _movementDirection * _speed.Value;
             _rididbody.velocity = v;
+        }
+
+        /// <summary>
+        /// Every frame the player will orient itself towards the mouse position.
+        /// </summary>
+        private void Rotation()
+        {
+            Vector3 mousePosition = MouseUtils.GetMousePosition();
+            Vector3 direction = transform.position.DirectionTo(mousePosition).WithY(0);
+            transform.forward = direction;
         }
 
         /// <summary>

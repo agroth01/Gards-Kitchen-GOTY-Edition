@@ -15,12 +15,16 @@ namespace GK.Projectiles
     public class Projectile : MonoBehaviour
     {
         private ProjectileData _data;
-
         private Rigidbody _rigidbody;
 
         private void Awake()
         {
             SetupRigidbody();
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            Destroy(gameObject);
         }
 
         /// <summary>

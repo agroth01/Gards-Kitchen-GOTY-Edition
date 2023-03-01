@@ -14,12 +14,18 @@ namespace GK.Enemies
 
         protected override void Death()
         {
+            DropCoins();
             Destroy(gameObject);
         }
 
         protected override void TakeDamage(DamageInfo damageInfo)
         {
             Health = Health - damageInfo.Amount;
+        }
+
+        private void DropCoins()
+        {
+            
         }
     }
 }

@@ -1,3 +1,4 @@
+using GK.Common;
 using GK.Core;
 using GK.Damage;
 using System.Collections;
@@ -16,6 +17,9 @@ namespace GK.Projectiles
     [RequireComponent(typeof(Rigidbody), typeof(Collider))]
     public class Projectile : MonoBehaviour
     {
+        [Header("Visuals")]
+        [SerializeField] private GameObject _hitPrefab;
+
         private ProjectileData _data;
         private Rigidbody _rigidbody;
         private Collider _collider;
@@ -70,6 +74,13 @@ namespace GK.Projectiles
 
                 damagable.Damage(di);
             }
+
+            // When creating the hit particles, we make sure to set the object hit as the
+            // parent of the particles, so that they follow the object hit and look more
+            // correct.
+            GameObject particlesGO = Instantiate(_hitPrefab, collision.contacts[0].point, Quaternion.identity);
+            particlesGO.transform.parent = collision.gameObject.transform;
+            particlesGO.AddComponent<TimedDestruction>().Delay = 1f;
 
             // The projectile gets destroyed anyways. Maybe add bounces/penetrations in the future.
             Destroy(gameObject);

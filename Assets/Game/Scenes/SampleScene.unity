@@ -1009,7 +1009,7 @@ MonoBehaviour:
           m_DissipationMode: 2
           m_DissipationDistance: 100
           m_PropagationSpeed: 343
-        Velocity: {x: 0.3, y: 0.3, z: 0.3}
+        Velocity: {x: 0.6, y: 0.6, z: 0.6}
         ClearImpulseOnStop: 0
 --- !u!1 &961912002
 GameObject:
@@ -1506,7 +1506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed:
-    _baseValue: 5
+    _baseValue: 7
 --- !u!114 &1760240525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1519,10 +1519,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db88d8994dda2cf43898657362557c24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dashSpeed: 15
-  _dashDuration: 0.15
+  _dashSpeed: 20
+  _dashDuration: 0.1
   _dashCooldown:
-    _baseValue: 2
+    _baseValue: 0.5
   _instantCooldownStart: 0
   _playerMovement: {fileID: 1760240522}
   _feedback: {fileID: 647453636}
@@ -1562,12 +1562,12 @@ MonoBehaviour:
   _flashParticles: {fileID: 1069073989498846, guid: 7658ae01d0a0655468898c47617f4de6, type: 3}
   _flashLifetime: 1
   _fireRate:
-    _baseValue: 10
+    _baseValue: 8
   _damage:
     _baseValue: 10
-  _projectileSpeed: 40
+  _projectileSpeed: 50
   _shootSound: {fileID: 8300000, guid: e48caf3ebde632f4b9ddaf2b4003503f, type: 3}
-  _shootSoundVolume: 0.2
+  _shootSoundVolume: 0.1
   _feedback: {fileID: 942900958}
 --- !u!82 &1760240528
 AudioSource:

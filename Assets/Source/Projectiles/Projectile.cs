@@ -1,4 +1,5 @@
 using GK.Core;
+using GK.Damage;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,7 +60,18 @@ namespace GK.Projectiles
         /// <param name="collision"></param>
         private void HandleValidCollision(Collision collision)
         {
-            Debug.Log(collision.gameObject.name);
+            IDamagable damagable = collision.gameObject.GetComponent<IDamagable>();
+            if (damagable != null)
+            {
+                // We hit something that should be able to take damage.
+                DamageInfo di = new DamageInfo();
+                di.Receiver = damagable;
+                di.Amount = _data.Damage;
+
+                damagable.Damage(di);
+            }
+
+            // The projectile gets destroyed anyways. Maybe add bounces/penetrations in the future.
             Destroy(gameObject);
         }
 

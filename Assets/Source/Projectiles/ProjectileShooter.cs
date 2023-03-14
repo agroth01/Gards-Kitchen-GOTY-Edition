@@ -11,7 +11,7 @@ namespace GK.Projectiles
     /// provides methods for creating and shooting out projectiles. It does not handle logic for
     /// when to shoot, where to shoot from, etc.
     /// </summary>
-    public abstract class ProjectileShooter : MonoBehaviour
+    public class ProjectileShooter : MonoBehaviour
     {
         [Header("Projectile")]
         [Tooltip("The projectile that will be created.")]
@@ -37,10 +37,10 @@ namespace GK.Projectiles
         /// <param name="speed"></param>
         /// <param name="damage"></param>
         /// <returns></returns>
-        protected Projectile CreateProjectile(Vector3 direction, float speed, float damage)
+        public Projectile CreateProjectile(Vector3 direction, float speed, float damage)
         {
             Vector3 modifiedDirection = CalculateProjectileDirection(direction);
-            ProjectileData data = new ProjectileData(speed, modifiedDirection, damage, _defaultAffiliation);
+            ProjectileData data = new ProjectileData(speed, modifiedDirection, damage, _defaultAffiliation, _projectileOriginPoint.position);
             return CreateProjectile(data);
         }
 
@@ -49,7 +49,7 @@ namespace GK.Projectiles
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected Projectile CreateProjectile(ProjectileData data)
+        public Projectile CreateProjectile(ProjectileData data)
         {
             if (_flashParticles != null)
                 CreateFlashParticles();

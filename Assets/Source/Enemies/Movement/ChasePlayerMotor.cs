@@ -33,8 +33,18 @@ namespace GK.Enemies
                 {
                     StopMoving();
                 }
-                
+
+                FacePlayer();
             }
+        }
+
+        /// <summary>
+        /// Ensures that the enemy is always facing the player. Angular speed of agent is set to 0 for this.
+        /// </summary>
+        private void FacePlayer()
+        {
+            Vector3 direction = transform.DirectionTo(_player);
+            transform.rotation = Quaternion.LookRotation(direction);
         }
     }
 }

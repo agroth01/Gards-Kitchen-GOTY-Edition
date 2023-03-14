@@ -23,6 +23,11 @@ namespace GK.Core
             return direction.normalized;
         }
 
+        public static Vector3 DirectionTo(this Vector3 vf, Transform tt)
+        {
+            return vf.DirectionTo(tt.position);
+        }
+
         /// <summary>
         /// Calculates the direction from one Vector3 to another Vector3.
         /// The resulting vector is not normalized.

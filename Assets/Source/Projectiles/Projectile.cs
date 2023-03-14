@@ -24,11 +24,20 @@ namespace GK.Projectiles
         private Rigidbody _rigidbody;
         private Collider _collider;
 
+        private Vector3 _lastVelocity;
+
         private void Awake()
         {
             _collider = GetComponent<Collider>();
             SetupRigidbody();
             AssignTag();
+        }
+
+        private void LateUpdate()
+        {
+            // We need to keep track of the last velocity of the projectile, so that when the projectile
+            // encounters an invalid collision, we can reset it's velocity to make sure it doesn't get stuck.
+            _lastVelocity = _rigidbody.velocity;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -55,6 +64,8 @@ namespace GK.Projectiles
         {
             // Tell the physics system to just ignore the collision.
             Physics.IgnoreCollision(collision.collider, _collider);
+
+            _rigidbody.velocity = _lastVelocity;
         }
 
         /// <summary>
@@ -71,6 +82,7 @@ namespace GK.Projectiles
                 DamageInfo di = new DamageInfo();
                 di.Receiver = damagable;
                 di.Amount = _data.Damage;
+                di.OriginPoint = _data.OriginPoint;
 
                 damagable.Damage(di);
             }
@@ -78,39 +90,29 @@ namespace GK.Projectiles
             // When creating the hit particles, we make sure to set the object hit as the
             // parent of the particles, so that they follow the object hit and look more
             // correct.
-            GameObject particlesGO = Instantiate(_hitPrefab, collision.contacts[0].point, Quaternion.identity);
-            particlesGO.transform.parent = collision.gameObject.transform;
-            particlesGO.AddComponent<TimedDestruction>().Delay = 1f;
+            if (_hitPrefab != null)
+            {
+                GameObject particlesGO = Instantiate(_hitPrefab, collision.contacts[0].point, Quaternion.identity);
+                particlesGO.transform.parent = collision.gameObject.transform;
+                particlesGO.AddComponent<TimedDestruction>().Delay = 1f;
+            }
 
             // The projectile gets destroyed anyways. Maybe add bounces/penetrations in the future.
-            Destroy(gameObject);
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            // Projectiles might sometimes collide with other projectiles. This should be ignored.
-            if (other.gameObject.CompareTag(gameObject.tag))
+            if (_data.IgnoreSurfaceCollisions && damagable == null)
                 return;
-
-            // Similarly, the projectile might collide with someone of the same affiliation as the
-            // projectile. This should also be ignored.
-            if (other.gameObject.CompareTag(_data.Affiliation.GetTag()))
-                return;
-
 
             Destroy(gameObject);
         }
-
 
         /// <summary>
         /// Sets the data that this projectile will use. This will cause the projectile to
         /// move in the direction and speed specified in the data.
         /// </summary>
         /// <param name="data"></param>
-        public void SetData(ProjectileData data)
+        public void SetData(ProjectileData data, bool modifyForward=true)
         {
             _data = data;
-            ModifyFromData();
+            ModifyFromData(modifyForward);
         }
 
         /// <summary>
@@ -139,14 +141,16 @@ namespace GK.Projectiles
         /// <summary>
         /// Sets the values based on the projectile data provided.
         /// </summary>
-        private void ModifyFromData()
+        private void ModifyFromData(bool modifyForward)
         {
             // Begone evil null references.
             if (_data == null)
                 return;
 
             _rigidbody.velocity = _data.Velocity;
-            transform.forward = _data.Direction;
+
+            if (modifyForward)
+                transform.forward = _data.Direction;
         }
     }
 }

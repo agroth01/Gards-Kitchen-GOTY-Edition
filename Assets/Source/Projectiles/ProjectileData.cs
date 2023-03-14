@@ -17,6 +17,8 @@ namespace GK.Projectiles
         public Vector3 Direction;
         public float Damage;
         public Affiliation Affiliation;
+        public Vector3 OriginPoint;
+        public bool IgnoreSurfaceCollisions = false;
 
         /// <summary>
         /// The velocity of the projectile. Is combined from the speed and direction.
@@ -26,12 +28,13 @@ namespace GK.Projectiles
             get { return Speed * Direction; }
         }
 
-        public ProjectileData(float speed, Vector3 direction, float damage, Affiliation affiliation)
+        public ProjectileData(float speed, Vector3 direction, float damage, Affiliation affiliation, Vector3 originPoint)
         {
             Speed = speed;
             Direction = direction;
             Damage = damage;
             Affiliation = affiliation;
+            OriginPoint = originPoint;
         }
     }
 }

@@ -28,6 +28,11 @@ namespace GK.Entities
             }
         }
 
+        public float HealthPercentage
+        {
+            get { return _currentHealth / _maxHealth.Value; }
+        }
+
         private void Awake()
         {
             _maxHealth.Initialize();

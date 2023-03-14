@@ -12,5 +12,6 @@ namespace GK.Damage
     {
         public IDamagable Receiver;
         public float Amount;
+        public Vector3 OriginPoint;
     }
 }
